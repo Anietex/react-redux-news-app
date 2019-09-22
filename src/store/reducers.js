@@ -6,7 +6,8 @@ import {
 
 const initialState = {
 
-    posts: null
+    posts: null,
+    pending: false
 }
 
 const rootReducer = (state=initialState, action) => {
@@ -21,7 +22,8 @@ const rootReducer = (state=initialState, action) => {
         case GET_POSTS_SUCCESS:
             return {
                 ...state,
-                posts: action.posts
+                posts: action.posts,
+                pending: false
             }
         case GET_POSTS_ERROR:
             return {

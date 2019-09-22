@@ -6,6 +6,7 @@ import {getPosts, getPostsPending, getPostsError } from "../store/reducers";
 import {bindActionCreators} from "redux";
 import {Link} from "react-router-dom";
 import qs from 'query-string';
+import Loader from "../components/shared/Loader";
 
 
 
@@ -37,7 +38,6 @@ class Home extends Component{
     }
 
     getPosts =() =>{
-        console.log('p--x',this.state.page)
         const { fetchPosts } = this.props
         fetchPosts(this.state.page)
     }
@@ -47,24 +47,39 @@ class Home extends Component{
             <div className='blog-header'>
                 <h1 className='text-center'>Epower Blog</h1>
             </div>
-            <div className='blog-body'>
+            {this.props.pending && <div className='row'>
+                <div className='col-md-2 mx-auto my-5 p-5'>
+                    <div className='text-center'>
+                        <Loader/>
+                        <p>Please wait..</p>
+                    </div>
+                </div>
+            </div> }
+            {!this.props.pending && <div className='blog-body'>
                 <div className='container'>
                     <div className='row no-gutters'>
 
-                            {this.props.posts && this.props.posts.items.map((post) => (
-                                <div className='col-lg-4 p-4' key={post.id}>
-                                            <PostCard post={post}/>
-                                </div>
-                                    ))}
+                        {this.props.posts && this.props.posts.items.map((post) => (
+                            <div className='col-lg-4 p-4' key={post.id}>
+                                <PostCard post={post}/>
+                            </div>
+                        ))}
                     </div>
                 </div>
                 <div className='blog-pagination'>
                     <div className='row'>
                         <div className='col-md-3 mx-auto'>
-                            { this.props.posts && <div className='d-flex'>
-                                { this.state.page > 1 && <Link to={`/?page=${this.state.page-1}`} className='btn mr-5'>Previous</Link>}
-                                { parseInt(this.props.posts.pagination.total_pages) > parseInt(this.state.page) && <Link to={`/?page=${parseInt(this.state.page)+1}`} className='btn ml-5'>Next</Link>}
-                            </div>
+                            {
+                                this.props.posts
+                                && <div className='d-flex'>
+                                    {
+                                        this.state.page > 1 &&
+                                        <Link to={`/?page=${this.state.page - 1}`} className='btn mr-5'>Previous</Link>}
+                                    {
+                                        parseInt(this.props.posts.pagination.total_pages) > parseInt(this.state.page) &&
+                                        <Link to={`/?page=${parseInt(this.state.page) + 1}`}
+                                              className='btn ml-5'>Next</Link>}
+                                </div>
                             }
                         </div>
 
@@ -72,6 +87,7 @@ class Home extends Component{
                 </div>
 
             </div>
+            }
         </div>
     }
 }

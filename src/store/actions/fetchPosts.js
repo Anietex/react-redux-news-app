@@ -3,6 +3,7 @@ import config from "../../config";
 
 export default function (page=1) {
     return dispatch => {
+        dispatch(getPostsSuccess(null))
         dispatch(getPostsPending())
         fetch(`${config.API_URL}/posts?per_page=6&page=${page}`)
             .then( async (res) => {
