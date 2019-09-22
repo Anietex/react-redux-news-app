@@ -26,6 +26,7 @@ class Home extends Component{
         let prevPage =  qs.parse(prevProps.location.search).page;
         let newPage = qs.parse(this.props.location.search).page;
 
+        //Monitor page change and make a fetch posts
         if(prevPage !== newPage){
             this.setState(() => (
                 {page: newPage }
