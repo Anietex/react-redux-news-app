@@ -1,20 +1,57 @@
 import React, {Component} from 'react';
+import config from "../config";
+import moment from "moment";
 
 
 class Post extends Component{
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            posts:null,
+            loading: true
+        }
+    }
+
+    componentWillMount() {
+        const {match : {params:{ id}}} = this.props;
+
+        fetch(`${config.API_URL}/posts/${id}`)
+            .then((res) => res.json() )
+            .then((res) => {
+                this.setState(()=> ({
+                    post: res,
+                    loading: false
+                }))
+            })
+    }
+
+    postContent(){
+        return {__html:this.state.post.content.rendered}
+    }
+
+    postDate(){
+       return  moment(this.state.post.date).format('MMMM DD, YYYY')
+    }
 
     render() {
-        return <div className='post'>
-            <div className='header'>
-                <h3>It is a long established fact that a reader will be distracted</h3>
+        return !this.state.loading && <div className='post'>
+            <div className='blog-header'>
+                <h1 className='text-center'>{this.state.post.title.rendered}</h1>
+                <h5 className='text-center text-uppercase mt-4'>Published on {this.postDate()} </h5>
             </div>
-            <div className='post-body'>
-                <div className=''>
-                    <img  alt={''} className='responsive-img' src='https://picsum.photos/3000/2000'/>
+            <div className='container'>
+                <div className='post-body'>
+                    <div className='post-image'>
+                        <img  alt={''} className='img-fluid' src={this.state.post.featured_image} />
+                    </div>
+                    <div className='post-content' dangerouslySetInnerHTML={this.postContent()}/>
                 </div>
             </div>
         </div>
+
+
     }
 }
 

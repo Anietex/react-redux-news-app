@@ -2,20 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 
 
-const PostCard = () => (
-            <div className="card">
-                <div className="card-image">
-                    <img src="https://picsum.photos/300/200" />
-                        <span className="card-title">Card Title</span>
-                </div>
-                <div className="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
-                </div>
-                <div className="card-action">
-                    <Link to='/45555' href="#">This is a link</Link>
-                </div>
+const PostCard = ({post}) => (
+
+    <div className='post-card'>
+        <Link to={`${post.id}/${post.slug}`}>
+            <div className='card-image'>
+                <img alt='' className='img-fluid' src={post.featured_image}/>
             </div>
+            <div className='card-content text-center pt-3'>
+                <h5 className='title'> {post.title.rendered} </h5>
+                <p className='text-center excerpt'>{post.excerpt.rendered}</p>
+            </div>
+        </Link>
+    </div>
 
 )
 

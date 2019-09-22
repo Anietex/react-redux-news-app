@@ -1,26 +1,28 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-// import '../App.css';
+import '../App.css';
 import Home from "../views/Home";
 import Post from "../views/Post";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
 
 function App() {
-  return (
-    <div className="App">
-      <Navbar/>
-      <div className='container'>
+    return (
         <Router>
-          <Switch>
-            <Route  exact path='/' component={Home}/>
-            <Route path='/:id' component={Post}/>
-          </Switch>
+            <div className="App">
+                {/*<Navbar/>*/}
+                <div className=''>
+
+                    <Switch>
+                        <Route  exact path='/' component={Home}/>
+                        <Route path='/:id/:slug' component={Post}/>
+                    </Switch>
+
+                </div>
+                <Footer/>
+            </div>
         </Router>
-      </div>
-      <Footer/>
-    </div>
-  );
+    );
 }
 
 export default App;
